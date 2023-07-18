@@ -2,7 +2,7 @@ import difflib
 import random
 from datetime import datetime
 
-import win32com
+# import win32com
 from twitchio.ext import commands
 
 import command_data_utils
@@ -51,18 +51,18 @@ class ChatCommandsCog(commands.Cog):
         lurker = random.choice(self.bot.lurkers_list)
         await ctx.send(f"Hey! You! @{lurker.display_name}, Say Something!")
 
-    @commands.command()
-    @commands.cooldown(1, 90)
-    async def current_song(self, ctx: commands.Context):
-        itunes = win32com.client.Dispatch("iTunes.Application")
-        current_track = itunes.CurrentTrack
-
-        if current_track:
-            artist = current_track.Artist
-            title = current_track.Name
-            await ctx.send(f"Now Playing: {title} by {artist}")
-        else:
-            await ctx.send("No song is playing.")
+    # @commands.command()
+    # @commands.cooldown(1, 90)
+    # async def current_song(self, ctx: commands.Context):
+    #     itunes = win32com.client.Dispatch("iTunes.Application")
+    #     current_track = itunes.CurrentTrack
+    #
+    #     if current_track:
+    #         artist = current_track.Artist
+    #         title = current_track.Name
+    #         await ctx.send(f"Now Playing: {title} by {artist}")
+    #     else:
+    #         await ctx.send("No song is playing.")
 
     @commands.command()
     @commands.cooldown(5, 300)

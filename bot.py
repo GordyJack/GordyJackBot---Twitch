@@ -124,7 +124,7 @@ class Bot(commands.Bot):
 
             closest_match = difflib.get_close_matches(attempted_command, self.commands.keys(), n=1)
             if closest_match:
-                await ctx.send(f"{error} Did you mean '!{closest_match[0]}'?")
+                await ctx.send(f"{error} Did you mean '{closest_match[0]}'?")
             else:
                 await ctx.send(str(error))
         else:

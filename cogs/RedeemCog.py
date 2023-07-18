@@ -1,10 +1,15 @@
+import librosa
 import os
 import random
 import re
+import soundfile as sf
 
 import pyttsx3
 
 from dotenvy import load_env, read_file
+from gtts import gTTS
+from pydub import AudioSegment
+from pydub.playback import play
 from twitchio.ext import pubsub, commands
 
 load_env(read_file('.env'))
@@ -64,7 +69,8 @@ class RedeemCog(commands.Cog):
 
     @commands.Cog.event()
     async def event_pubsub_subscription(self, event: pubsub.PubSubChannelSubscribe):
-        print("SUBSCRIPTION", event.channel, event.user, event.message, event.time, event.multi_month_duration, event.cumulative_months, event.is_gift)
+        print("SUBSCRIPTION", event.channel, event.user, event.message, event.time, event.multi_month_duration,
+              event.cumulative_months, event.is_gift)
 
 
 def tts(message):
@@ -81,10 +87,10 @@ def tts(message):
         '{randomize}': None,
         '{male}': lambda: engine.setProperty('voice', default_voice),
         '{female}': lambda: engine.setProperty('voice', voice_path + 'TTS_MS_EN-US_ZIRA_11.0'),
-        '{slow}': lambda: engine.setProperty('rate', default_rate*(2/3)),
-        '{fast}': lambda: engine.setProperty('rate', default_rate*1.5),
-        '{quiet}': lambda: engine.setProperty('volume', default_volume*(2/3)),
-        '{loud}': lambda: engine.setProperty('volume', default_volume*1.5),
+        '{slow}': lambda: engine.setProperty('rate', default_rate * (2 / 3)),
+        '{fast}': lambda: engine.setProperty('rate', default_rate * 1.5),
+        '{quiet}': lambda: engine.setProperty('volume', default_volume * (2 / 3)),
+        '{loud}': lambda: engine.setProperty('volume', default_volume * 1.5),
     }
 
     def randomize_properties():
@@ -117,6 +123,79 @@ def tts(message):
                     randomize_properties()
                 engine.say(word)
         engine.runAndWait()
+
+
+def google_text_to_speech(message: str, lang='en'):
+    def create_audio_segment(text, language=lang, playback_speed=1.0, pitchshift=None):
+        # Use gTTS to convert the text to speech
+        speech = gTTS(text, lang=language)
+        temp_filename = 'audio/temp.mp3'
+        speech.save(temp_filename)
+
+        if pitchshift is not None:
+            pitch_shift(temp_filename, temp_filename, pitchshift)
+
+        audio = AudioSegment.from_mp3(temp_filename)
+        if playback_speed != 1.0:
+            audio = audio.speedup(playback_speed=playback_speed)
+
+        os.remove(temp_filename)
+
+        return audio
+
+    def pitch_shift(input_filename, output_filename, n_steps):
+        # Load audio file
+        y, sr = librosa.load(input_filename)
+
+        # Shift pitch
+        y_shifted = librosa.effects.pitch_shift(y, sr=sr, n_steps=n_steps)
+
+        # Write out audio with shifted pitch
+        sf.write(output_filename, y_shifted, int(sr))
+
+    modifiers = {
+        '{Male}': 'en-uk',  # For Male voice, we'll use UK English
+        '{Female}': 'en',  # For Female voice, we'll use US English
+        '{Slow}': 0.75,  # Slow down the audio speed by 75%
+        '{Fast}': 1.25,  # Speed up the audio by 125%
+        '{Low}': -10,  # Lower the pitch by 10 semitones
+        '{Normal}': None,  # Reset to default settings
+        '{Randomize}': 'random'  # Randomize settings
+    }
+    # Split the text into parts based on the modifiers
+    parts = re.split('({.+?})', message)
+
+    final_audio = AudioSegment.empty()
+    lang = 'en'
+    speed = 1.0
+    pitch = 0.0
+
+    for part in parts:
+        if part in modifiers:
+            match part:
+                case '{Randomize}':
+                    lang = random.choice(['en', 'en-uk'])
+                    speed = random.choice([0.75, 1.0, 1.25])
+                    pitch = random.choice(range(-10, 10))
+                case '{Normal}':
+                    lang = 'en'
+                    speed = 1.0
+                    pitch = 0.0
+                case '{Male}' | '{Female}':
+                    lang = modifiers[part]
+                case '{Slow}' | '{Fast}':
+                    speed = modifiers[part]
+                case '{Low}':
+                    pitch = modifiers[part]
+        else:
+            # Otherwise, create an audio segment with the current settings
+            audio_segment = create_audio_segment(part, language=lang, playback_speed=speed, pitchshift=pitch)
+            final_audio += audio_segment
+
+    # Save the final audio
+    filename = "audio/final_audio.mp3"
+    final_audio.export(filename, format="mp3")
+    play(AudioSegment.from_mp3(filename))
 
 
 def prepare(bot):

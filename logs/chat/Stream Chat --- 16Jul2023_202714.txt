@@ -1,0 +1,13 @@
+=======================================================================
+Twitch chat log for the stream on Sunday, the 16 of July ending at 08:27:14 PM
+=======================================================================
+Total Messages: 1
+---Chats: 1
+---Commands: 0
+---Responses: 1
+Total Chatters: 1
+---GordyJackBot: 1
+Top Chatters:
+---GordyJackBot: 1
+=======================================================================
+[2023-07-15|21:15:02] GordyJackBot: If you're liking the stream, don't forget to follow and join the !discord, so you can stay up to date on all my streams!

@@ -1,0 +1,51 @@
+{
+    "50th": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:18:58"
+    },
+    "commands": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:15:07"
+    },
+    "call_out_lurker": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:15:24"
+    },
+    "current_song": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:15:32"
+    },
+    "discord": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:15:38"
+    },
+    "first": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:19:11"
+    },
+    "get_colors": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:19:23"
+    },
+    "lurk": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:19:32"
+    },
+    "lurkers": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:19:40"
+    },
+    "qotd": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:19:55",
+        "question": "What tips would you give to a new Satisfactory player?"
+    },
+    "rand_question": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:26:59"
+    },
+    "top_chatter": {
+        "enabled": true,
+        "last_used": "2023-07-15|20:20:19"
+    }
+}

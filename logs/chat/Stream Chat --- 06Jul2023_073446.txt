@@ -1,0 +1,17 @@
+=======================================================================
+Twitch chat log for the stream on Thursday, the 06 of July ending at 07:34:46 AM
+=======================================================================
+Total Messages: 3
+---Chats: 2
+---Commands: 1
+---Responses: 2
+Total Chatters: 2
+---GordyJackBot: 2
+---GordyJackStreaming: 1
+Top Chatters:
+---GordyJackBot: 2
+---GordyJackStreaming: 1
+=======================================================================
+GordyJackStreaming: !qotd
+GordyJackBot: Hello, GordyJackStreaming! You are the first chatter!
+GordyJackBot: No command '!!qotd' found.

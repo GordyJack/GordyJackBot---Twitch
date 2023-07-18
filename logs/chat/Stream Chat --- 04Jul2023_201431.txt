@@ -1,0 +1,4 @@
+GordyJackStreaming: Hello ther
+GordyJackBot: Hello, GordyJackStreaming! You are the first chatter!
+GordyJackStreaming: !first
+GordyJackBot: GordyJackStreaming was the first chatter this stream!

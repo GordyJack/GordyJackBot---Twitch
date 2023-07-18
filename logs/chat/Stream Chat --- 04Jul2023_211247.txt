@@ -1,0 +1,12 @@
+=======================================================================
+Twitch chat log for the stream on Tuesday, the 04 of July ending at 09:12:47 PM
+=======================================================================
+Total Messages: 2
+Total Commands: 0
+Total Chatters: 1
+---GordyJackStreaming: 2
+Top Chatters:
+---GordyJackStreaming: 2
+=======================================================================
+GordyJackStreaming: Hello
+GordyJackStreaming: apple

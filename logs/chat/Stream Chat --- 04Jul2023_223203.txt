@@ -1,0 +1,22 @@
+=======================================================================
+Twitch chat log for the stream on Tuesday, the 04 of July ending at 10:32:03 PM
+=======================================================================
+Total Messages: 8
+---Chats: 5
+---Commands: 3
+---Responses: 4
+Total Chatters: 2
+---GordyJackBot: 4
+---GordyJackStreaming: 4
+Top Chatters:
+---GordyJackStreaming: 4
+---GordyJackBot: 4
+=======================================================================
+GordyJackStreaming: Hello
+GordyJackBot: Hello, GordyJackStreaming! You are the first chatter!
+GordyJackStreaming: !first
+GordyJackBot: GordyJackStreaming was the first chatter this stream!
+GordyJackStreaming: !disable_command first
+GordyJackBot: No command '!!disable_command' found. Did you mean '!disable'?
+GordyJackStreaming: !disable first
+GordyJackBot: Command "first" disabled.

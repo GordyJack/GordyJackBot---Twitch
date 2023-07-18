@@ -1,0 +1,19 @@
+=======================================================================
+Twitch chat log for the stream on Tuesday, the 04 of July ending at 10:55:35 PM
+=======================================================================
+Total Messages: 5
+---Chats: 3
+---Commands: 2
+---Responses: 2
+Total Chatters: 2
+---GordyJackBot: 2
+---GordyJackStreaming: 3
+Top Chatters:
+---GordyJackStreaming: 3
+---GordyJackBot: 2
+=======================================================================
+GordyJackStreaming: Hello
+GordyJackBot: Hello, GordyJackStreaming! You are the first chatter!
+GordyJackStreaming: !first
+GordyJackBot: GordyJackStreaming was the first chatter this stream!
+GordyJackStreaming: !disable first

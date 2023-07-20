@@ -49,6 +49,12 @@ class ModCommandsCog(commands.Cog):
         else:
             await ctx.send(f'Command "{command_name}" is not disabled.')
 
+    @commands.command()
+    async def reload_cog(self, ctx: commands.Context, cog_name: str):
+        if not ctx.author.is_mod:
+            return
+        self.bot.reload_module(f"cogs.{cog_name}")
+
 
 def prepare(bot):
     bot.add_cog(ModCommandsCog(bot))

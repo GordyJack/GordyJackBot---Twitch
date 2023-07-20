@@ -125,10 +125,10 @@ def tts(message):
         engine.runAndWait()
 
 
-def google_text_to_speech(message: str, lang='en'):
-    def create_audio_segment(text, language=lang, playback_speed=1.0, pitchshift=None):
+def google_text_to_speech(message: str):
+    def create_audio_segment(text, tld, playback_speed=1.0, pitchshift=None):
         # Use gTTS to convert the text to speech
-        speech = gTTS(text, lang=language)
+        speech = gTTS(text, lang='en', tld=tld)
         temp_filename = 'audio/temp.mp3'
         speech.save(temp_filename)
 
@@ -153,43 +153,53 @@ def google_text_to_speech(message: str, lang='en'):
         # Write out audio with shifted pitch
         sf.write(output_filename, y_shifted, int(sr))
 
+    message = message.lower()
+
     modifiers = {
-        '{Male}': 'en-uk',  # For Male voice, we'll use UK English
-        '{Female}': 'en',  # For Female voice, we'll use US English
-        '{Slow}': 0.75,  # Slow down the audio speed by 75%
-        '{Fast}': 1.25,  # Speed up the audio by 125%
-        '{Low}': -10,  # Lower the pitch by 10 semitones
-        '{Normal}': None,  # Reset to default settings
-        '{Randomize}': 'random'  # Randomize settings
+        'lang': {
+            '{au}': 'com.au',  # For Male voice, we'll use UK English
+            '{uk}': 'co.uk',  # For Female voice, we'll use US English
+            '{us}': 'us',  # For Female voice, we'll use US English
+            '{ca}': 'ca',  # For Female voice, we'll use US English
+            '{in}': 'co.in',  # For Female voice, we'll use US English
+            '{ie}': 'ie',  # For Female voice, we'll use US English
+            '{za}': 'co.za'  # For Female voice, we'll use US English
+        },
+        '{slow}': 0.75,  # Slow down the audio speed by 75%
+        '{fast}': 1.25,  # Speed up the audio by 125%
+        '{low}': -10,  # Lower the pitch by 10 semitones
+        '{normal}': None,  # Reset to default settings
+        '{randomize}': 'random'  # Randomize settings
     }
     # Split the text into parts based on the modifiers
     parts = re.split('({.+?})', message)
 
     final_audio = AudioSegment.empty()
-    lang = 'en'
+    accent = modifiers['lang']['{us}']
     speed = 1.0
     pitch = 0.0
 
     for part in parts:
-        if part in modifiers:
+        print(part)
+        if part in modifiers['lang']:
+            accent = modifiers['lang'][part]
+        elif part in modifiers:
             match part:
-                case '{Randomize}':
-                    lang = random.choice(['en', 'en-uk'])
+                case '{randomize}':
+                    lang = random.choice(modifiers[lang])
                     speed = random.choice([0.75, 1.0, 1.25])
                     pitch = random.choice(range(-10, 10))
-                case '{Normal}':
+                case '{normal}':
                     lang = 'en'
                     speed = 1.0
                     pitch = 0.0
-                case '{Male}' | '{Female}':
-                    lang = modifiers[part]
-                case '{Slow}' | '{Fast}':
+                case '{slow}' | '{fast}':
                     speed = modifiers[part]
-                case '{Low}':
+                case '{low}':
                     pitch = modifiers[part]
         else:
             # Otherwise, create an audio segment with the current settings
-            audio_segment = create_audio_segment(part, language=lang, playback_speed=speed, pitchshift=pitch)
+            audio_segment = create_audio_segment(part, tld=accent, playback_speed=speed, pitchshift=pitch)
             final_audio += audio_segment
 
     # Save the final audio

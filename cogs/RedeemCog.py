@@ -76,7 +76,7 @@ async def tts(message):
     def randomize_properties():
         random_voice = random.choice(voice_ids)
         random_rate = random.randint(50, 200)
-        random_volume = random.uniform(.5, 1.5)
+        random_volume = random.uniform(.01, 1.0)
         print(random_voice, random_rate, random_volume)
         engine.setProperty('voice', random_voice)
         engine.setProperty('rate', random_rate)
@@ -92,17 +92,19 @@ async def tts(message):
     voice_path = 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\'
     default_voice = voice_path + 'TTS_MS_EN-US_DAVID_11.0'
     default_rate = 150
-    default_volume = 1.0
+    default_volume = 0.5
+
+    reset_to_default()
 
     modifiers = {
         '{normal}': lambda: reset_to_default(),
         '{randomize}': lambda: randomize_properties(),
         '{male}': lambda: engine.setProperty('voice', default_voice),
         '{female}': lambda: engine.setProperty('voice', voice_path + 'TTS_MS_EN-US_ZIRA_11.0'),
-        '{slow}': lambda: engine.setProperty('rate', default_rate * (2 / 3)),
+        '{slow}': lambda: engine.setProperty('rate', default_rate * (3 / 4)),
         '{fast}': lambda: engine.setProperty('rate', default_rate * 1.5),
         '{quiet}': lambda: engine.setProperty('volume', default_volume * (2 / 3)),
-        '{loud}': lambda: engine.setProperty('volume', default_volume * 2),
+        '{loud}': lambda: engine.setProperty('volume', 1),
     }
 
     parts = re.split('({.+?})', message)

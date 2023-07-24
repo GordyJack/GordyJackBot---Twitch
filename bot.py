@@ -19,17 +19,17 @@ load_env(read_file('.env'))
 oauth_token = os.getenv('BOT_ACCESS_TOKEN')
 channel_name = 'gordyjackstreaming'
 
-cog_names = ['ChatCommandsCog', 'ModCommandsCog', 'RedeemCog', 'RoutineCog']
-
 
 class Bot(commands.Bot):
 
-    def __init__(self):
+    def __init__(self, game_name: str):
         # Initialise our Bot with our access token, prefix and a list of channels to join on boot...
         # prefix can be a callable, which returns a list of strings or a string...
         # initial_channels can also be a callable which returns a list of strings...
         super().__init__(token=oauth_token, prefix='!', initial_channels=[channel_name])
         self.disabled_commands = {}
+
+        self.game = game_name
 
         self.first_chatter = ''
         self.last_chatter = ''
@@ -132,7 +132,21 @@ class Bot(commands.Bot):
 
 
 if __name__ == "__main__":
-    bot = Bot()
+    # Initialize the Bot
+    bot = Bot('Satisfactory')
+
+    # Load cogs for the Bot
+    cog_names = ['ChatCommandsCog', 'ModCommandsCog', 'RedeemCog', 'RoutineCog']
+    game = bot.game
+    match game:
+        case 'Minecraft':
+            cog_names.append('MinecraftCommandsCog')
+        case 'Satisfactory':
+            cog_names.append('SatisfactoryCommandsCog')
+        case _:
+            print(f"No cog yet implemented for {game}")
     for cog in cog_names:
         bot.load_module(f"cogs.{cog}")
+
+    # Run the Bot
     bot.run()

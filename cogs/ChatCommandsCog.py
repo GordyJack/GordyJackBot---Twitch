@@ -41,9 +41,10 @@ class ChatCommandsCog(commands.Cog):
     @commands.command(name='commands')
     @commands.cooldown(1, 600)
     async def show_commands(self, ctx: commands.Context):
-        await ctx.send("All commands: ")
-        for command, description in self.all_commands.items():
-            await ctx.send(f" --- {command} --- {description}")
+        await ctx.send("Check out the commands panel down below the stream!")
+        # await ctx.send("All commands: ")
+        # for command, description in self.all_commands.items():
+        #     await ctx.send(f" --- {command} --- {description}")
 
     @commands.command(name='call_out_lurker')
     @commands.cooldown(1, 300, commands.Bucket.user)

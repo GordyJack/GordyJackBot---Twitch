@@ -9,6 +9,7 @@ class RoutineCog(commands.Cog):
         self.bot = bot
         self.channel = None
         self.last_message = bot.last_message if bot.last_message else None
+        self.last_lurker = None
 
     @commands.Cog.event()
     async def event_ready(self):
@@ -26,8 +27,12 @@ class RoutineCog(commands.Cog):
         lurkers = self.bot.lurkers_list
         if self.channel and lurkers and ("feel free to join the chat!" not in self.last_message.content):  # if there are any lurkers
             lurker = random.choice(lurkers)  # selects a random lurker
-            if lurker is not self.bot.last_lurker:  # gets the specific channel
+            if lurker is not self.last_lurker:  # gets the specific channel
                 await self.channel.send(f"Hey {lurker.display_name}, feel free to join the chat!")  # calls out the lurker
+            else:
+                print(f"[ERROR]: lurker_reminder_2 | {lurkers=} | {lurker=}")
+        else:
+            print(f"[ERROR]: lurker_reminder_1 | {lurkers=}")
 
     @routines.routine(seconds=random.randint(900, 1800))
     async def follow_reminder(self):

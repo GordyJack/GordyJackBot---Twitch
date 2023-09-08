@@ -12,6 +12,8 @@ from pydub import AudioSegment
 from pydub.playback import play
 from twitchio.ext import pubsub, commands
 
+from cogs import MinecraftCommandsCog
+
 load_env(read_file('.env'))
 
 users_oauth_token = os.getenv('CHANNEL_ACCESS_TOKEN')
@@ -41,7 +43,7 @@ class RedeemCog(commands.Cog):
         user = event.user
 
         print(user, bit_count, message)
-        if bit_count >= 1:
+        if bit_count >= 100:
             await tts(f"{'{randomize}'}{user} Cheered for {bit_count} bits: {message}")
 
     @commands.Cog.event()
@@ -65,6 +67,9 @@ class RedeemCog(commands.Cog):
             case "Text to Speech":
                 print(reward, message)
                 await tts(message)
+            case "Have a Fruit!":
+                print(reward)
+                MinecraftCommandsCog.send_minecraft_command('chorus')
 
     @commands.Cog.event()
     async def event_pubsub_subscription(self, event: pubsub.PubSubChannelSubscribe):

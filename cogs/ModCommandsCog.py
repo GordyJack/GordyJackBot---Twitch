@@ -11,6 +11,13 @@ class ModCommandsCog(commands.Cog):
     async def event_ready(self):
         print(f"{__name__} registered with | {self.bot.user_id}")
 
+    @commands.command()
+    async def change_game(self, ctx: commands.Context, game_name: str):
+        if not ctx.author.is_mod:
+            return
+        self.bot.game = game_name
+        await ctx.send(f'{ctx.author.display_name} set game to: {game_name}')
+
     @commands.command(name='disable')
     async def disable_command(self, ctx: commands.Context, command_name: str):
         if not ctx.author.is_mod:

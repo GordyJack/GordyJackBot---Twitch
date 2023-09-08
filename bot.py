@@ -37,7 +37,6 @@ class Bot(commands.Bot):
         self.last_chatters_count = random.randint(5, 15)
         self.last_message = ''
         self.lurkers_list = []
-        self.last_lurker = None
         self.reminder_count = 0
         self.message_count = 0
 
@@ -94,18 +93,18 @@ class Bot(commands.Bot):
         if self.message_count == 1:
             self.first_chatter = author_name
             await message.channel.send(f"Hello, {author_name}! You are the first chatter!")
-        if self.message_count in (10, 100, 200, 500, 1000):
+        if self.message_count in (2**i for i in range(3, 17)):
             await message.channel.send(f"Congrats, {author_name}! You sent the {self.message_count}th message!")
         if author_name in content:
             await message.channel.send(f"Congrats, {author_name}! You know your own name!")
 
-        self.last_chatters.append(self.last_chatter)
-        if len(self.last_chatters) == self.last_chatters_count and all(
-                element == self.last_chatter for element in self.last_chatters):
-            await message.channel.send(f"Dang, {author_name} you sure have been talking a lot. \
-                {self.last_chatters_count} messages to be precise. I guess it must be lonely in here or something.")
-            self.last_chatters_count = random.randint(5, 15)
-            self.last_chatters.clear()
+        # self.last_chatters.append(self.last_chatter)
+        # if len(self.last_chatters) == self.last_chatters_count and all(
+        #         element == self.last_chatter for element in self.last_chatters):
+        #     await message.channel.send(f"Dang, {author_name} you sure have been talking a lot. \
+        #         {self.last_chatters_count} messages to be precise. I guess it must be lonely in here or something.")
+        #     self.last_chatters_count = random.randint(5, 15)
+        #     self.last_chatters.clear()
 
         # Since we have commands and are overriding the default `event_message`
         # We must let the bot know we want to handle and invoke our commands...
@@ -133,7 +132,7 @@ class Bot(commands.Bot):
 
 if __name__ == "__main__":
     # Initialize the Bot
-    bot = Bot('Satisfactory')
+    bot = Bot('Minecraft')
 
     # Load cogs for the Bot
     cog_names = ['ChatCommandsCog', 'ModCommandsCog', 'RedeemCog', 'RoutineCog']
